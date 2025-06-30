@@ -701,8 +701,8 @@ body {
 
 .services-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 24px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
 }
 
 .magic-service-card {
@@ -834,8 +834,8 @@ body {
 
 .consultation-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 24px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
     margin-top: 40px;
 }
 
@@ -1040,6 +1040,64 @@ body {
     box-shadow: 0 6px 20px rgba(255, 140, 0, 0.3);
 }
 
+/* Orange themed container for personal photo */
+.founders-image-container.orange-themed {
+    background: linear-gradient(135deg, rgba(255, 140, 0, 0.1), rgba(255, 107, 53, 0.1));
+    border: 3px solid var(--primary-orange);
+    box-shadow: 0 6px 25px rgba(255, 140, 0, 0.2);
+}
+
+.founders-image-container.orange-themed:hover {
+    background: linear-gradient(135deg, rgba(255, 140, 0, 0.2), rgba(255, 107, 53, 0.2));
+    border-color: #ff6b35;
+    box-shadow: 0 8px 30px rgba(255, 140, 0, 0.4);
+    transform: translateY(-3px);
+}
+
+.founders-image-container.orange-themed .founders-image:hover {
+    box-shadow: 0 8px 25px rgba(255, 140, 0, 0.4);
+}
+
+/* Founders section in About page */
+.founders-section {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin: 25px 0;
+    padding: 20px;
+    background: linear-gradient(135deg, rgba(255, 140, 0, 0.05), rgba(255, 107, 53, 0.05));
+    border-radius: 15px;
+    border: 1px solid rgba(255, 140, 0, 0.1);
+}
+
+.founders-content {
+    flex: 1;
+    text-align: left;
+}
+
+.founders-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--primary-orange);
+    margin-bottom: 10px;
+    text-shadow: 0 2px 4px rgba(255, 140, 0, 0.2);
+}
+
+.founders-image-container.about-founders {
+    max-width: 300px;
+    margin: 0;
+    display: block;
+    flex-shrink: 0;
+}
+
+.founders-description {
+    font-size: 14px;
+    color: #555;
+    line-height: 1.5;
+    margin: 0;
+    font-style: italic;
+}
+
 /* Call to Action Section */
 .cta {
     padding: 60px 0;
@@ -1215,8 +1273,9 @@ body {
 
 .contact-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 32px;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 24px;
     width: 100%;
     overflow: hidden;
 }
@@ -2048,12 +2107,19 @@ body {
     }
 
     .services-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
     }
 
     .consultation-grid {
-        grid-template-columns: 1fr;
-        gap: 24px;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+    
+    .contact-grid {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+        gap: 20px;
     }
 
     .cta-main-content {
@@ -2077,6 +2143,7 @@ body {
 
     .contact-grid {
         grid-template-columns: 1fr;
+        grid-template-rows: auto;
         gap: 20px;
     }
     
@@ -2105,6 +2172,34 @@ body {
     .founders-image {
         max-width: 280px;
         max-height: 200px;
+    }
+    
+    /* Founders section responsive */
+    .founders-section {
+        flex-direction: column;
+        text-align: center;
+        margin: 15px 0;
+        padding: 15px;
+        gap: 15px;
+    }
+    
+    .founders-content {
+        text-align: center;
+    }
+    
+    .founders-title {
+        font-size: 20px;
+        margin-bottom: 10px;
+    }
+    
+    .founders-image-container.about-founders {
+        max-width: 280px;
+        margin: 0 auto;
+    }
+    
+    .founders-description {
+        font-size: 13px;
+        padding: 0 10px;
     }
 
     .auth-modal-content {
@@ -2159,6 +2254,16 @@ body {
     .service-card,
     .contact-item {
         padding: 24px;
+    }
+    
+    .services-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .consultation-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
     }
 
     .auth-modal-header {
