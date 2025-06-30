@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Lance and Yuri Kids Spot Naga City</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="admin-styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <h2>Lance and Yuri Kids Spot Naga City</h2>
+                <span class="admin-badge">Admin</span>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">
+                    <i class="fas fa-home"></i> Main Site
+                </a>
+                <a href="#" class="nav-link">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Admin Dashboard -->
+    <section class="admin-section">
+        <div class="container">
+            <!-- Welcome Header -->
+            <div class="welcome-header">
+                <div class="welcome-content">
+                    <h1>👋 Welcome to Lance and Yuri Kids Spot Naga City Admin</h1>
+                    <p class="welcome-subtitle">Manage your patient appointments easily and efficiently</p>
+                </div>
+                
+                <!-- Branch Selection -->
+                <div class="branch-filter-section">
+                    <div class="branch-filter-header">
+                        <h3>📍 Select Your Branch</h3>
+                        <p>Choose your branch to view patients for your location</p>
+                    </div>
+                    <div class="admin-branch-boxes">
+                        <div class="admin-branch-box" data-value="blumentritt">
+                            <input type="radio" id="adminBranchMain" name="adminBranchLocation" value="blumentritt" onchange="filterByBranch('blumentritt')" checked>
+                            <label for="adminBranchMain" class="admin-branch-label">
+                                <div class="admin-branch-icon">🏢</div>
+                                <div class="admin-branch-info">
+                                    <h4>Main Branch</h4>
+                                    <p>Blumentritt St., Naga City</p>
+                                </div>
+                                <div class="admin-branch-badge main-badge">PRIMARY</div>
+                            </label>
+                        </div>
+                        <div class="admin-branch-box" data-value="delrosario">
+                            <input type="radio" id="adminBranchSatellite" name="adminBranchLocation" value="delrosario" onchange="filterByBranch('delrosario')">
+                            <label for="adminBranchSatellite" class="admin-branch-label">
+                                <div class="admin-branch-icon">📡</div>
+                                <div class="admin-branch-info">
+                                    <h4>Satellite Branch</h4>
+                                    <p>Del Rosario, Naga City</p>
+                                </div>
+                                <div class="admin-branch-badge satellite-badge">SATELLITE</div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Quick Stats -->
+                <div class="quick-stats">
+                    <div class="stat-item">
+                        <div class="stat-number" id="branchPendingCount">-</div>
+                        <div class="stat-label">Patients Need Scheduling</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="branchScheduledCount">-</div>
+                        <div class="stat-label">Scheduled Appointments</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions Section -->
+            <div class="quick-actions-section">
+                <h2>🔍 Find a Patient</h2>
+                <p class="section-description">Type a patient's name or ID to find their information</p>
+                
+                <div class="simple-search-box">
+                    <input type="text" id="patientDetailSearch" placeholder="Type patient name or ID (e.g., Maria Santos or PT001)...">
+                    <button class="big-search-btn" onclick="searchPatientDetails()">
+                        🔍 Find Patient
+                    </button>
+                </div>
+
+                <div id="patientSearchResults" class="search-results-area" style="display: none;">
+                    <!-- Search results will appear here -->
+                </div>
+            </div>
+
+            <!-- Main Actions -->
+            <div class="main-actions">
+                <button class="big-action-btn active" data-view="pending" onclick="switchPatientView('pending')">
+                    ⏳ Pending Patients
+                    <span class="action-count" id="pendingCount">2</span>
+                </button>
+                <button class="big-action-btn" data-view="scheduled" onclick="switchPatientView('scheduled')">
+                    📅 Scheduled Patients
+                    <span class="action-count" id="scheduledCount">2</span>
+                </button>
+                <button class="big-action-btn" data-view="completed" onclick="switchPatientView('completed')">
+                    ✅ Completed Patients
+                    <span class="action-count" id="completedCount">1</span>
+                </button>
+                <button class="big-action-btn" data-view="calendar" onclick="switchPatientView('calendar')">
+                    📅 Calendar View
+                    <span class="action-count" id="calendarCount">📅</span>
+                </button>
+            </div>
+
+            <!-- Pending Patients -->
+            <div id="pending-view" class="patient-list-container active">
+                <div class="list-header">
+                    <h2>⏳ Pending Patients</h2>
+                    <div class="help-text">
+                        <div class="help-item">
+                            <span class="help-icon">👆</span>
+                            <span>Click on any patient to schedule their appointment</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-wrapper table-wrapper-enhanced">
+                    <table class="patients-table">
+                        <thead>
+                            <tr>
+                                <th class="col-patient">Patient Info</th>
+                                <th class="col-contact">Contact & Service</th>
+                                <th class="col-booking">Booking Details</th>
+                                <th class="col-actions">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Pending patients will be dynamically populated here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Scheduled Patients -->
+            <div id="scheduled-view" class="patient-list-container" style="display: none;">
+                <div class="list-header">
+                    <h2>📅 Scheduled Patients</h2>
+                    <div class="help-text">
+                        <div class="help-item">
+                            <span class="help-icon">📋</span>
+                            <span>View and manage scheduled appointments</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-wrapper table-wrapper-enhanced">
+                    <table class="patients-table">
+                        <thead>
+                            <tr>
+                                <th class="col-patient">Patient Info</th>
+                                <th class="col-contact">Contact & Service</th>
+                                <th class="col-appointment">Appointment</th>
+                                <th class="col-actions">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Scheduled patients will be dynamically populated here -->
+                                                </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Completed Patients -->
+            <div id="completed-view" class="patient-list-container" style="display: none;">
+                <div class="list-header">
+                    <h2>✅ Completed Patients</h2>
+                    <div class="help-text">
+                        <div class="help-item">
+                            <span class="help-icon">🎉</span>
+                            <span>Patients who have completed their assessments</span>
+                        </div>
+                    </div>
+                </div>
+
+
+                
+                <div class="table-wrapper table-wrapper-enhanced">
+                    <table class="patients-table">
+                        <thead>
+                            <tr>
+                                <th class="col-patient">Patient Info</th>
+                                <th class="col-contact">Contact & Service</th>
+                                <th class="col-completion">Completion Details</th>
+                                <th class="col-actions">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Completed patients will be dynamically populated here -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Bottom Pagination (Compact) -->
+                <div class="pagination pagination-bottom">
+                    <div class="pagination-compact">
+                        <button class="page-btn" disabled title="Previous page">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <span class="page-info-simple">1 of 10</span>
+                        <button class="page-btn" title="Next page">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                    <button class="btn-scroll-top" onclick="scrollToTop()" title="Back to top">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>Top</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Calendar View -->
+            <div id="calendar-view" class="calendar-view-container" style="display: none;">
+                <div class="calendar-view-header">
+                    <h2><i class="fas fa-calendar"></i> Calendar - Scheduled Appointments</h2>
+                    <div class="calendar-controls">
+                        <div class="calendar-navigation">
+                            <button id="prevCalendarMonth" class="nav-btn">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <span id="calendarCurrentMonth">March 2024</span>
+                            <button id="nextCalendarMonth" class="nav-btn">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                        <button id="addAppointmentBtn" class="add-appointment-btn">
+                            <i class="fas fa-plus"></i> Add Appointment
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="calendar-grid-container">
+                    <div class="calendar-view-grid">
+                        <div class="calendar-view-days">
+                            <div class="day-header">Sunday</div>
+                            <div class="day-header">Monday</div>
+                            <div class="day-header">Tuesday</div>
+                            <div class="day-header">Wednesday</div>
+                            <div class="day-header">Thursday</div>
+                            <div class="day-header">Friday</div>
+                            <div class="day-header">Saturday</div>
+                        </div>
+                        
+                        <div id="calendarViewDates" class="calendar-view-dates">
+                            <!-- Calendar dates with appointments will be generated here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Add Form -->
+                <div id="quickAddForm" class="quick-add-form" style="display: none;">
+                    <div class="quick-add-header">
+                        <h3><i class="fas fa-plus"></i> Add New Appointment</h3>
+                        <button id="closeQuickAdd" class="close-quick-add">&times;</button>
+                    </div>
+                    <div class="quick-add-body">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="quickPatientId">Patient ID:</label>
+                                <input type="text" id="quickPatientId" placeholder="e.g., PT007" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="quickPatientName">Patient Name:</label>
+                                <input type="text" id="quickPatientName" placeholder="Guardian/Parent Name" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="quickChildName">Child Name:</label>
+                                <input type="text" id="quickChildName" placeholder="Child's Name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="quickChildAge">Child Age:</label>
+                                <input type="text" id="quickChildAge" placeholder="e.g., 5 years" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="quickDate">Date:</label>
+                                <input type="date" id="quickDate" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="quickTime">Time:</label>
+                                <select id="quickTime" required>
+                                    <option value="">Select Time</option>
+                                    <option value="8:00 AM">8:00 AM</option>
+                                    <option value="9:00 AM">9:00 AM</option>
+                                    <option value="10:00 AM">10:00 AM</option>
+                                    <option value="11:00 AM">11:00 AM</option>
+                                    <option value="1:00 PM">1:00 PM</option>
+                                    <option value="2:00 PM">2:00 PM</option>
+                                    <option value="3:00 PM">3:00 PM</option>
+                                    <option value="4:00 PM">4:00 PM</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group full-width">
+                                <label for="quickService">Service:</label>
+                                <select id="quickService" required>
+                                    <option value="Initial Assessment">Initial Assessment</option>
+                                    <option value="Speech Therapy">Speech Therapy</option>
+                                    <option value="Physical Therapy">Physical Therapy</option>
+                                    <option value="Occupational Therapy">Occupational Therapy</option>
+                                    <option value="Behavioral Therapy">Behavioral Therapy</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="button" id="cancelQuickAdd" class="btn-cancel">Cancel</button>
+                            <button type="button" id="saveQuickAdd" class="btn-save">Save Appointment</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Selected Date Info -->
+                <div id="selectedDateInfo" class="selected-date-info" style="display: none;">
+                    <div class="date-info-header">
+                        <h3 id="selectedDateTitle">March 25, 2024</h3>
+                        <div class="date-actions">
+                            <button id="addToDateBtn" class="add-to-date-btn">
+                                <i class="fas fa-plus"></i> Add Appointment
+                            </button>
+                        </div>
+                    </div>
+                    <div id="dateAppointments" class="date-appointments">
+                        <!-- Appointments for selected date will be shown here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scheduling Modal -->
+    <div id="schedulingModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-calendar-plus"></i> Schedule Appointment</h2>
+                <span class="close-modal">&times;</span>
+            </div>
+            
+            <div class="modal-body">
+                <!-- Patient Info -->
+                <div class="patient-summary">
+                    <div class="summary-item">
+                        <strong>Patient:</strong> <span id="modal-patient-name">Maria Santos</span>
+                    </div>
+                    <div class="summary-item">
+                        <strong>Child:</strong> <span id="modal-child-name">Sofia, 4 years old</span>
+                    </div>
+                    <div class="summary-item">
+                        <strong>Service:</strong> <span id="modal-service">Initial Assessment</span>
+                    </div>
+                    <div class="summary-item">
+                        <strong>Booking Date:</strong> <span id="modal-booking-date">March 20, 2024</span>
+                    </div>
+                </div>
+
+                <!-- Calendar and Time Selection -->
+                <div class="scheduling-container">
+                    <div class="calendar-section">
+                        <div class="calendar-header">
+                            <h3><i class="fas fa-calendar"></i> Select Date</h3>
+                            <div class="month-navigation">
+                                <button id="prevMonth" class="nav-btn">
+                                    <i class="fas fa-chevron-left"></i>
+                                </button>
+                                <span id="currentMonth">March 2024</span>
+                                <button id="nextMonth" class="nav-btn">
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="calendar-grid">
+                            <div class="calendar-days">
+                                <div class="day-header">Sun</div>
+                                <div class="day-header">Mon</div>
+                                <div class="day-header">Tue</div>
+                                <div class="day-header">Wed</div>
+                                <div class="day-header">Thu</div>
+                                <div class="day-header">Fri</div>
+                                <div class="day-header">Sat</div>
+                            </div>
+                            <div id="calendarDates" class="calendar-dates">
+                                <!-- Calendar dates will be generated here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="time-selection">
+                        <h3><i class="fas fa-clock"></i> Select Time</h3>
+                        <div class="time-slots">
+                            <button class="time-slot" data-time="09:00">9:00 AM</button>
+                            <button class="time-slot" data-time="09:30">9:30 AM</button>
+                            <button class="time-slot" data-time="10:00">10:00 AM</button>
+                            <button class="time-slot" data-time="10:30">10:30 AM</button>
+                            <button class="time-slot" data-time="11:00">11:00 AM</button>
+                            <button class="time-slot" data-time="11:30">11:30 AM</button>
+                            <button class="time-slot" data-time="13:00">1:00 PM</button>
+                            <button class="time-slot" data-time="13:30">1:30 PM</button>
+                            <button class="time-slot" data-time="14:00">2:00 PM</button>
+                            <button class="time-slot" data-time="14:30">2:30 PM</button>
+                            <button class="time-slot" data-time="15:00">3:00 PM</button>
+                            <button class="time-slot" data-time="15:30">3:30 PM</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Selected Schedule Display -->
+                <div class="selected-schedule">
+                    <h3><i class="fas fa-check-circle"></i> Selected Schedule</h3>
+                    <div class="schedule-display">
+                        <span id="selectedSchedule">Please select a date and time</span>
+                    </div>
+                </div>
+
+                <!-- Notes Section -->
+                <div class="scheduling-notes">
+                    <label for="appointmentNotes">
+                        <i class="fas fa-sticky-note"></i> Appointment Notes (Optional)
+                    </label>
+                    <textarea id="appointmentNotes" placeholder="Add any special notes for this appointment..."></textarea>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn-cancel">Cancel</button>
+                <button class="btn-confirm" disabled>
+                    <i class="fas fa-calendar-check"></i> Confirm Schedule
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Overlay -->
+    <div id="modalOverlay" class="modal-overlay"></div>
+
+    <!-- Patient Details Modal -->
+    <div id="patientDetailsModal" class="modal">
+        <div class="modal-content patient-details-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-user-circle"></i> Patient Details</h2>
+                <span class="close-modal" onclick="closePatientDetailsModal()">&times;</span>
+            </div>
+            
+            <div class="modal-body patient-details-body">
+                <!-- Patient Summary Header -->
+                <div class="patient-summary-header">
+                    <div class="patient-avatar">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <div class="patient-basic-info">
+                        <h3 id="detail-patient-name">Maria Santos</h3>
+                        <p class="patient-id">Patient ID: <span id="detail-patient-id">#PT001</span></p>
+                        <div class="patient-status">
+                            <span id="detail-status-badge" class="status-badge confirmed">Confirmed</span>
+                            <span id="detail-payment-badge" class="payment-badge paid">₱500 Paid</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Detailed Information Grid -->
+                <div class="patient-details-grid">
+                    <!-- Guardian Information -->
+                    <div class="detail-section">
+                        <h4><i class="fas fa-users"></i> Guardian Information</h4>
+                        <div class="detail-info">
+                            <div class="info-row">
+                                <label>Full Name:</label>
+                                <span id="detail-guardian-name">Maria Santos</span>
+                            </div>
+                            <div class="info-row">
+                                <label>Relationship:</label>
+                                <span id="detail-relationship">Mother</span>
+                            </div>
+                            <div class="info-row">
+                                <label>Email:</label>
+                                <span id="detail-email">maria.santos@email.com</span>
+                            </div>
+                            <div class="info-row">
+                                <label>Phone:</label>
+                                <span id="detail-phone">0917 123 4567</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Child Information -->
+                    <div class="detail-section">
+                        <h4><i class="fas fa-child"></i> Child Information</h4>
+                        <div class="detail-info">
+                            <div class="info-row">
+                                <label>Child Name:</label>
+                                <span id="detail-child-name">Sofia</span>
+                            </div>
+                            <div class="info-row">
+                                <label>Age:</label>
+                                <span id="detail-child-age">4 years old</span>
+                            </div>
+                            <div class="info-row">
+                                <label>Birthday:</label>
+                                <span id="detail-child-birthday">March 15, 2020</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Service Information -->
+                    <div class="detail-section">
+                        <h4><i class="fas fa-stethoscope"></i> Service Information</h4>
+                        <div class="detail-info">
+                            <div class="info-row">
+                                <label>Service Type:</label>
+                                <span id="detail-service-type" class="service-badge assessment">Initial Assessment</span>
+                            </div>
+                            <div class="info-row">
+                                <label>Booking Date:</label>
+                                <span id="detail-booking-date">March 20, 2024</span>
+                            </div>
+                            <div class="info-row">
+                                <label>Scheduled Date:</label>
+                                <span id="detail-scheduled-date">March 25, 2024 - 10:00 AM</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Payment Information -->
+                    <div class="detail-section">
+                        <h4><i class="fas fa-credit-card"></i> Payment Information</h4>
+                        <div class="detail-info">
+                            <div class="info-row">
+                                <label>Payment Status:</label>
+                                <span id="detail-payment-status" class="payment-badge paid">Paid</span>
+                            </div>
+                            <div class="info-row">
+                                <label>Amount:</label>
+                                <span id="detail-payment-amount">₱500</span>
+                            </div>
+                            <div class="info-row">
+                                <label>Payment Date:</label>
+                                <span id="detail-payment-date">March 20, 2024</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Concerns & Notes -->
+                    <div class="detail-section full-width">
+                        <h4><i class="fas fa-notes-medical"></i> Concerns & Notes</h4>
+                        <div class="detail-info">
+                            <div class="info-row">
+                                <label>Reported Concerns:</label>
+                                <p id="detail-concerns" class="concerns-text">Speech delay and social interaction difficulties</p>
+                            </div>
+                            <div class="info-row">
+                                <label>Additional Notes:</label>
+                                <div class="notes-container">
+                                    <div id="detail-notes-display" class="notes-text">Initial assessment completed - therapy plan to be discussed with doctor</div>
+                                    <textarea id="detail-notes-edit" class="notes-edit-field" style="display: none;" placeholder="Add notes for this patient..."></textarea>
+                                    <div class="notes-actions">
+                                        <button id="edit-notes-btn" class="notes-btn edit-btn" onclick="editNotes()" title="Edit notes">
+                                            <i class="fas fa-edit"></i> Edit
+                                        </button>
+                                        <button id="save-notes-btn" class="notes-btn save-btn" onclick="saveNotes()" style="display: none;" title="Save notes">
+                                            <i class="fas fa-save"></i> Save
+                                        </button>
+                                        <button id="cancel-notes-btn" class="notes-btn cancel-btn" onclick="cancelNotesEdit()" style="display: none;" title="Cancel editing">
+                                            <i class="fas fa-times"></i> Cancel
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="patient-details-actions">
+                    <button class="detail-action-btn schedule" onclick="scheduleFromDetails()">
+                        <i class="fas fa-calendar-plus"></i> Schedule Appointment
+                    </button>
+                    <button class="detail-action-btn contact" onclick="contactFromDetails()">
+                        <i class="fas fa-phone"></i> Contact Patient
+                    </button>
+                    <button class="detail-action-btn edit" onclick="editFromDetails()">
+                        <i class="fas fa-edit"></i> Edit Information
+                    </button>
+                    <button class="detail-action-btn print" onclick="printPatientDetails()">
+                        <i class="fas fa-print"></i> Print Details
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="admin-script.js"></script>
+</body>
+</html> 

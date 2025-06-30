@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment - Lance and Yuri Kids Spot Naga City</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="payment-styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>Lance and Yuri Kids Spot Naga City</h2>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">
+                    <i class="fas fa-arrow-left"></i> Back to Home
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Payment Section -->
+    <section class="payment-section">
+        <div class="container">
+            <div class="payment-container">
+                <!-- Payment Header -->
+                <div class="payment-header">
+                    <div class="step-indicator">
+                        <div class="step completed">
+                            <div class="step-number">1</div>
+                            <span>Booking Details</span>
+                        </div>
+                        <div class="step-line"></div>
+                        <div class="step active">
+                            <div class="step-number">2</div>
+                            <span>Payment</span>
+                        </div>
+                        <div class="step-line"></div>
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <span>Confirmation</span>
+                        </div>
+                    </div>
+                    <h1>Pay Booking Fee</h1>
+                    <p>Pay the booking fee to secure your appointment. Final service price will be discussed at the center.</p>
+                </div>
+
+                <!-- Booking Summary -->
+                <div class="booking-summary">
+                    <h3><i class="fas fa-receipt"></i> Appointment Summary</h3>
+                    <div class="summary-details">
+                        <div class="summary-item">
+                            <span>Therapy Service:</span>
+                            <span id="selected-service">Initial Assessment</span>
+                        </div>
+                        <div class="summary-item">
+                            <span>Booking Date:</span>
+                            <span id="booking-date"></span>
+                        </div>
+                        <div class="summary-item">
+                            <span>Appointment Status:</span>
+                            <span>Pending Schedule</span>
+                        </div>
+                        <div class="summary-divider"></div>
+                        <div class="summary-item total">
+                            <span>Booking Fee:</span>
+                            <span class="amount" id="booking-fee">To be confirmed</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payment Methods -->
+                <div class="payment-methods">
+                    <h3><i class="fas fa-credit-card"></i> Select Payment Method</h3>
+                    
+                    <!-- GCash Option -->
+                    <div class="payment-option" data-method="gcash">
+                        <div class="payment-header-option">
+                            <div class="payment-icon gcash-icon">
+                                <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiByeD0iOCIgZmlsbD0iIzAwN0RGRiIvPgo8cGF0aCBkPSJNMTIgMTJIMjhWMTZIMTJWMTJaIiBmaWxsPSJ3aGl0ZSIvPgo8cGF0aCBkPSJNMTIgMThIMjRWMjJIMTJWMThaIiBmaWxsPSJ3aGl0ZSIvPgo8cGF0aCBkPSJNMTIgMjRIMjhWMjhIMTJWMjRaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4K" alt="GCash">
+                            </div>
+                            <div class="payment-info">
+                                <h4>GCash</h4>
+                                <p>Pay instantly with your GCash account</p>
+                            </div>
+                            <div class="payment-radio">
+                                <input type="radio" name="payment-method" value="gcash" id="gcash">
+                                <label for="gcash"></label>
+                            </div>
+                        </div>
+                        <div class="payment-details gcash-details">
+                            <div class="form-group">
+                                <label for="gcash-number">GCash Mobile Number</label>
+                                <input type="tel" id="gcash-number" placeholder="09XX XXX XXXX" maxlength="11">
+                            </div>
+                            <div class="payment-note">
+                                <i class="fas fa-info-circle"></i>
+                                <span>You'll receive an SMS notification to complete the payment</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bank Transfer Option -->
+                    <div class="payment-option" data-method="bank">
+                        <div class="payment-header-option">
+                            <div class="payment-icon bank-icon">
+                                <i class="fas fa-university"></i>
+                            </div>
+                            <div class="payment-info">
+                                <h4>Bank Transfer</h4>
+                                <p>Transfer directly to our bank account</p>
+                            </div>
+                            <div class="payment-radio">
+                                <input type="radio" name="payment-method" value="bank" id="bank">
+                                <label for="bank"></label>
+                            </div>
+                        </div>
+                        <div class="payment-details bank-details">
+                            <div class="bank-options">
+                                <div class="bank-option">
+                                    <div class="bank-info">
+                                        <h5>BDO Unibank</h5>
+                                        <p>Account Name: Lance and Yuri Kids Spot Naga City</p>
+                                        <p>Account Number: <strong>1234-5678-9012</strong></p>
+                                    </div>
+                                    <button class="copy-btn" data-copy="1234-5678-9012">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                                <div class="bank-option">
+                                    <div class="bank-info">
+                                        <h5>BPI Bank</h5>
+                                        <p>Account Name: Lance and Yuri Kids Spot Naga City</p>
+                                        <p>Account Number: <strong>9876-5432-1098</strong></p>
+                                    </div>
+                                    <button class="copy-btn" data-copy="9876-5432-1098">
+                                        <i class="fas fa-copy"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="upload-section">
+                                <label for="receipt-upload" class="upload-label">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                    Upload Payment Receipt
+                                </label>
+                                <input type="file" id="receipt-upload" accept="image/*,.pdf">
+                                <p class="upload-note">Upload your bank transfer receipt (JPG, PNG, or PDF)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payment Actions -->
+                <div class="payment-actions">
+                    <button class="btn-back" onclick="history.back()">
+                        <i class="fas fa-arrow-left"></i>
+                        Back to Booking
+                    </button>
+                    <button class="btn-pay" id="pay-now-btn" disabled>
+                        <i class="fas fa-lock"></i>
+                        Pay Booking Fee
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Security Notice -->
+    <div class="security-notice">
+        <div class="container">
+            <div class="security-content">
+                <i class="fas fa-shield-alt"></i>
+                <div>
+                    <h4>Secure Payment</h4>
+                    <p>Your payment information is encrypted and secure. We never store your financial details.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="payment-script.js"></script>
+</body>
+</html> 
